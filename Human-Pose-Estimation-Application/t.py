@@ -98,6 +98,8 @@ st.image(
 thres = st.slider('Threshold for detecting the key points',min_value = 0,value = 20, max_value = 100,step = 5)
 
 thres = thres/100
+cap = cv2.VideoCapture('Human-Pose-Estimation-Application/T3.mp4')
+img = cap.read()
 
 @st.cache
 def poseDetector(frame):
@@ -106,8 +108,7 @@ def poseDetector(frame):
     
     #net.setInput(cv2.dnn.blobFromImage(frame, 1.0, (inWidth, inHeight), (127.5, 127.5, 127.5), 
                                        #swapRB=True, crop=False))
-  cap = cv2.VideoCapture('Human-Pose-Estimation-Application/T3.mp4')
-  img = cap.read()
+  
   while True:
     success, img = cap.read()                                   
     img = detector.findPose(img)
@@ -181,7 +182,7 @@ def poseDetector(frame):
     return img
 
 
-output = poseDetector(image)
+output = poseDetector(img)
 
 
 st.subheader('Positions Estimated')
