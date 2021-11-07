@@ -9,7 +9,53 @@ import time
 import posemodule as pm
 import math
 import random
-DEMO_IMAGE = 'Human-Pose-Estimation-Application/stand.jpg'
+colors = [(245,117,16), (117,245,16), (16,117,245)]
+pTime = 0
+windowname = "OpenCV Media Player"
+cv2.namedWindow(windowname)
+cap = cv2.VideoCapture(0)
+detector = pm.poseDetector()
+count = 0
+count70 = 0
+
+def rescale_frame(frame, percent=75):
+    width = int(frame.shape[1] * percent/ 100)
+    height = int(frame.shape[0] * percent/ 100)
+    dim = (width, height)
+    return cv2.resize(frame, dim, interpolation =cv2.INTER_AREA)
+
+def check(a, b):
+    if a > b:
+        return a-b
+    else:
+        return b-a
+
+
+
+def prob_viz(num, input_frame, colors):
+    output_frame = input_frame.copy()
+    message = "";
+    colr = 0
+    if num>=90:
+        colr = 1
+        message = "Progress {}%".format(str(num))
+    elif num<85 and num>=50:
+        colr  = 0
+        message = "Progress {}%".format(str(num))
+    elif num < 50:
+        colr = 2
+        message = "Start"
+    
+    cv2.rectangle(output_frame, (50,15), (num+110, 23), colors[colr], 13)
+    cv2.putText(output_frame, message, (50, 25), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255,255,255), 1, cv2.LINE_AA)
+     
+    return output_frame
+
+
+
+f=0
+k=0
+DEMO_IMAGE = 'stand.jpg'
 
 BODY_PARTS = { "Nose": 0, "Neck": 1, "RShoulder": 2, "RElbow": 3, "RWrist": 4,
                "LShoulder": 5, "LElbow": 6, "LWrist": 7, "RHip": 8, "RKnee": 9,
@@ -62,8 +108,12 @@ def poseDetector(frame):
     
     #net.setInput(cv2.dnn.blobFromImage(frame, 1.0, (inWidth, inHeight), (127.5, 127.5, 127.5), 
                                        #swapRB=True, crop=False))
-    img = detector.findPose(frame)
-    lmlist = detector.getPosition(frame,draw=False)
+  cap = cv2.VideoCapture('Human-Pose-Estimation-Application/T3.mp4')
+  img = cap.read()
+  while True:
+    success, img = cap.read()                                   
+    img = detector.findPose(img)
+    lmlist = detector.getPosition(img,draw=False)
     #out = net.forward()
     #out = out[:, :19, :, :]
     
