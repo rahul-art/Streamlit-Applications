@@ -55,7 +55,7 @@ def prob_viz(num, input_frame, colors):
 
 f=0
 k=0
-DEMO_IMAGE = 'stand.jpg'
+DEMO_IMAGE = 'Human-Pose-Estimation-Application/stand.jpg'
 
 BODY_PARTS = { "Nose": 0, "Neck": 1, "RShoulder": 2, "RElbow": 3, "RWrist": 4,
                "LShoulder": 5, "LElbow": 6, "LWrist": 7, "RHip": 8, "RKnee": 9,
