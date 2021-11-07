@@ -61,7 +61,7 @@ class poseDetector():
 
 def main():
     pTime = 0
-    cap = cv2.VideoCapture('test.mp4')
+    cap = cv2.VideoCapture('Human-Pose-Estimation-Application/test.mp4')
     detector = poseDetector()
     
     
