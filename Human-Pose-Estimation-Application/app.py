@@ -107,25 +107,25 @@ def main():
             logger.debug(f"  {thread.name} ({thread.ident})")
 
 def app_del():
-    DEFAULT_DELAY = 0.0
+    #DEFAULT_DELAY = 0.0
 
     class VideoProcessor(VideoProcessorBase):
-        delay = DEFAULT_DELAY
+        #delay = DEFAULT_DELAY
 
         async def recv_queued(self, frames: List[av.VideoFrame]) -> List[av.VideoFrame]:
-            logger.debug("Delay:", self.delay)
-            await asyncio.sleep(self.delay)
+            #logger.debug("Delay:", self.delay)
+            #await asyncio.sleep(self.delay)
             return frames
 
     class AudioProcessor(AudioProcessorBase):
-        delay = DEFAULT_DELAY
+        #delay = DEFAULT_DELAY
 
         async def recv_queued(self, frames: List[av.AudioFrame]) -> List[av.AudioFrame]:
-            await asyncio.sleep(self.delay)
+            #await asyncio.sleep(self.delay)
             return frames
 
     webrtc_ctx = webrtc_streamer(
-        key="delay",
+        key="delaye",
         mode=WebRtcMode.SENDRECV,
         rtc_configuration=RTC_CONFIGURATION,
         video_processor_factory=VideoProcessor,
