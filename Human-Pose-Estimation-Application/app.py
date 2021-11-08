@@ -45,8 +45,7 @@ import random
 
 colors = [(245,117,16), (117,245,16), (16,117,245)]
 pTime = 0
-windowname = "OpenCV Media Player"
-cv2.namedWindow(windowname)
+
 cap = cv2.VideoCapture(0)
 detector = pm.poseDetector()
 count = 0
