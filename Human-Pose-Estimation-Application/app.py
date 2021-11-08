@@ -97,7 +97,7 @@ def main():
     )
     st.subheader(app_mode)
     if app_mode == delayed_echo_page:
-        app_delayed_echo()
+        app_del()
 
 
 
@@ -106,6 +106,33 @@ def main():
         if thread.is_alive():
             logger.debug(f"  {thread.name} ({thread.ident})")
 
+def app_del():
+    DEFAULT_DELAY = 0.0
+
+    class VideoProcessor(VideoProcessorBase):
+        delay = DEFAULT_DELAY
+
+        async def recv_queued(self, frames: List[av.VideoFrame]) -> List[av.VideoFrame]:
+            logger.debug("Delay:", self.delay)
+            await asyncio.sleep(self.delay)
+            return frames
+
+    class AudioProcessor(AudioProcessorBase):
+        delay = DEFAULT_DELAY
+
+        async def recv_queued(self, frames: List[av.AudioFrame]) -> List[av.AudioFrame]:
+            await asyncio.sleep(self.delay)
+            return frames
+
+    webrtc_ctx = webrtc_streamer(
+        key="delay",
+        mode=WebRtcMode.SENDRECV,
+        rtc_configuration=RTC_CONFIGURATION,
+        video_processor_factory=VideoProcessor,
+        audio_processor_factory=AudioProcessor,
+        async_processing=True,
+    )
+            
 def app_delayed_echo():
     DEFAULT_DELAY = 0.0
 
