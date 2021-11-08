@@ -300,10 +300,10 @@ def app_delayed_echo():
         async_processing=True,
     )
 
-    if webrtc_ctx.video_processor and webrtc_ctx.audio_processor:
-        delay = st.slider("Delay", 0.0, 5.0, DEFAULT_DELAY, 0.05)
-        webrtc_ctx.video_processor.delay = delay
-        webrtc_ctx.audio_processor.delay = delay
+    #if webrtc_ctx.video_processor and webrtc_ctx.audio_processor:
+        #delay = st.slider("Delay", 0.0, 5.0, DEFAULT_DELAY, 0.05)
+        #webrtc_ctx.video_processor.delay = delay
+        #webrtc_ctx.audio_processor.delay = delay
 
 
 def app_object_detection():
@@ -571,7 +571,7 @@ def app_sendonly_video():
     from the browser to the server and to render frames via `st.image`."""
     webrtc_ctx = webrtc_streamer(
         key="video-sendonly",
-        mode=WebRtcMode.SENDONLY,
+        mode=WebRtcMode.SENDRECV,
         rtc_configuration=RTC_CONFIGURATION,
         media_stream_constraints={"video": True},
     )
