@@ -187,7 +187,7 @@ def app_delayed_echo():
                    #count70 = check(count, count70)
                    cv2.putText(img,"70% " + "Total Number of Squats  "+str(int(count70)),(50,100),cv2.FONT_HERSHEY_DUPLEX,0.5,
                    (60,100,255),1)
-            return frames
+    return frames
 
     class AudioProcessor(AudioProcessorBase):
         #delay = DEFAULT_DELAY
