@@ -84,80 +84,6 @@ def prob_viz(num, input_frame, colors):
     cv2.putText(output_frame, message, (50, 25), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255,255,255), 1, cv2.LINE_AA)
      
     return output_frame
-
-
-
-f=0
-k=0
-time.sleep(5)
-cap = cv2.VideoCapture(0)
-img = cap.read()
-while True:
-    success, img = cap.read()
-    img = detector.findPose(img)
-    lmlist = detector.getPosition(img,draw=False)
-    
-    if len(lmlist)!=0:
-        cv2.circle(img,(lmlist[25][1],lmlist[25][2]),8,(255,150,0),cv2.FILLED)
-        cv2.circle(img,(lmlist[23][1],lmlist[23][2]),8,(255,150,0),cv2.FILLED)
-         #print(lmlist[23])
-        y1 = lmlist[25][2]
-        y2 = lmlist[23][2]
-        
-        #length = a-b
-        length = y2-y1
-        if length>=-45 and f==0:
-            f=1
-        elif length<-50 and f==1:
-            f=0
-            count=count+1
-            count70=count70-1
-        elif length>=-57 and k==0:
-            k=1
-        elif length<-60 and k==1:
-            k=0
-            count70=count70+1
-        
-        print("Value of Y1  = {}".format(y1))
-        print("Value of Y2  = {}".format(y2))
-        print("Value of Length  = {}".format(length))
-        cTime = time.time()
-        fps = 1/(cTime-pTime)
-        pTime = cTime
-        cv2.putText(img,"100% " + "Total Number of Squats  "+str(int(count)),(50,60),cv2.FONT_HERSHEY_DUPLEX,0.5,
-        (60,100,255),1)
-        cv2.putText(img,"Calories Burnt  "+str(int(count)*0.32),(50,140),cv2.FONT_HERSHEY_DUPLEX,0.5,
-        (60,100,255),1)
-        #img = cv2.resize(img, (900,900))                    # Resize image
-        
-        
-        xx = abs(length)
-        progress = 0
-        different = xx - 50
-        print("Different value = {}".format(different))
-        if different > 30:
-            progress = 10
-        elif different <= 25 and different > 20:
-            progress = 30
-        elif different <= 20 and different > 15:
-            progress = 50
-        elif different <= 15 and different > 10:
-            progress = 60
-        elif different <= 10 and different > 5:
-            progress = 70
-        elif different <= 5 and different > 2:
-            progress = 90
-        elif different <= 2 and different <=0:
-            progress = 100
-            
-        img = prob_viz(progress , img, colors)
-        
-        print("xx value = {}".format(xx))
-        print("-------------------------------progress value = {}".format(progress))
-        
-        #count70 = check(count, count70)
-        cv2.putText(img,"70% " + "Total Number of Squats  "+str(int(count70)),(50,100),cv2.FONT_HERSHEY_DUPLEX,0.5,
-        (60,100,255),1)
         
 
 
@@ -190,6 +116,77 @@ def app_delayed_echo():
         async def recv_queued(self, frames: List[av.VideoFrame]) -> List[av.VideoFrame]:
             #logger.debug("Delay:", self.delay)
             #await asyncio.sleep(self.delay)
+           f=0
+           k=0
+           time.sleep(5)
+           #cap = cv2.VideoCapture(0)
+           img = frames#cap.read()
+           while True:
+               img = frames
+               img = detector.findPose(img)
+               lmlist = detector.getPosition(img,draw=False)
+    
+               if len(lmlist)!=0:
+                   cv2.circle(img,(lmlist[25][1],lmlist[25][2]),8,(255,150,0),cv2.FILLED)
+                   cv2.circle(img,(lmlist[23][1],lmlist[23][2]),8,(255,150,0),cv2.FILLED)
+         
+                   y1 = lmlist[25][2]
+                   y2 = lmlist[23][2]
+                   
+                   #length = a-b
+                   length = y2-y1
+                   if length>=-45 and f==0:
+                       f=1
+                   elif length<-50 and f==1:
+                       f=0
+                       count=count+1
+                       count70=count70-1
+                   elif length>=-57 and k==0:
+                       k=1
+                   elif length<-60 and k==1:
+                       k=0
+                       count70=count70+1
+                   
+                   print("Value of Y1  = {}".format(y1))
+                   print("Value of Y2  = {}".format(y2))
+                   print("Value of Length  = {}".format(length))
+                   cTime = time.time()
+                   fps = 1/(cTime-pTime)
+                   pTime = cTime
+                   cv2.putText(img,"100% " + "Total Number of Squats  "+str(int(count)),(50,60),cv2.FONT_HERSHEY_DUPLEX,0.5,
+                   (60,100,255),1)
+                   cv2.putText(img,"Calories Burnt  "+str(int(count)*0.32),(50,140),cv2.FONT_HERSHEY_DUPLEX,0.5,
+                   (60,100,255),1)
+                   #img = cv2.resize(img, (900,900))                                          # Resize image
+        
+        
+                   xx = abs(length)
+                   progress = 0
+                   different = xx - 50
+                   print("Different value = {}".format(different))
+                   if different > 30:
+                       progress = 10
+                   elif different <= 25 and different > 20:
+                       progress = 30
+                   elif different <= 20 and different > 15:
+                       progress = 50
+                   elif different <= 15 and different > 10:
+                       progress = 60
+                   elif different <= 10 and different > 5:
+                       progress = 70
+                   elif different <= 5 and different > 2:
+                       progress = 90
+                   elif different <= 2 and different <=0:
+                       progress = 100
+                       
+                   img = prob_viz(progress , img, colors)
+                   
+                   print("xx value = {}".format(xx))
+                   print("-------------------------------progress value = {}".format(progress))
+                   
+                   #count70 = check(count, count70)
+                   cv2.putText(img,"70% " + "Total Number of Squats  "+str(int(count70)),(50,100),cv2.FONT_HERSHEY_DUPLEX,0.5,
+                   (60,100,255),1)
             return frames
 
     class AudioProcessor(AudioProcessorBase):
