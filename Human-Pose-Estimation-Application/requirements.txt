@@ -1,6 +1,5 @@
 streamlit_webrtc
 streamlit
-opencv-python-headless==3.4.13.47
 Pillow==8.1.2
 mediapipe
 aiortc==1.2.1
